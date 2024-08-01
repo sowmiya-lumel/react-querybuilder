@@ -152,7 +152,8 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({
   customRenderer,
   getSelectionKey,
   enableDrilldown = false,
-  onSaveFilter
+  onSaveFilter,
+  theme = 'light'
 }) => {
   const getInitialQuery = () => {
     // Gets the initial query
@@ -262,13 +263,14 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({
     removeIconatStart,
     customRenderer,
     getSelectionKey,
-    enableDrilldown
+    enableDrilldown,
+    theme
   };
   useEffect(() => {
     // Set the query state when a new query prop comes in
     let rootCopy = generateValidQuery(query || getInitialQuery()) as RuleGroupType;
     rootCopy = updateCombinator(rootCopy);
-    rootCopy = updateMeasureFilterCombinator(rootCopy)
+    rootCopy = updateMeasureFilterCombinator(rootCopy);
     setRoot(rootCopy);
   }, [query]);
   useEffect(() => {
@@ -477,7 +479,7 @@ const useQueryBuilderActions = (
     else rootCopy.rules.push(createRule());
 
     updateCombinator(rootCopy);
-    updateMeasureFilterCombinator(rootCopy)
+    updateMeasureFilterCombinator(rootCopy);
     setRoot(rootCopy);
     _notifyQueryChange(rootCopy);
   };
@@ -531,7 +533,7 @@ const useQueryBuilderActions = (
           value: ''
         });
       updateCombinator(rootCopy);
-      updateMeasureFilterCombinator(rootCopy)
+      updateMeasureFilterCombinator(rootCopy);
       setRoot(rootCopy);
       _notifyQueryChange(rootCopy, prop, ruleId);
     }
@@ -575,7 +577,7 @@ const useQueryBuilderActions = (
       };
       getValidQuery(rootCopy, updatedQuery, true);
       updateCombinator(updatedQuery);
-      updateMeasureFilterCombinator(updatedQuery)
+      updateMeasureFilterCombinator(updatedQuery);
       _notifyQueryChange(updatedQuery);
     }
   };
@@ -591,7 +593,7 @@ const useQueryBuilderActions = (
       combinator: rootCopy.combinator
     };
     updateCombinator(updatedQuery);
-    updateMeasureFilterCombinator(updatedQuery)
+    updateMeasureFilterCombinator(updatedQuery);
     _notifyQueryChange(updatedQuery);
   };
   const getLevelFromRoot = (id: string) => getLevel(id, 0, root); //Gets the level of the rule with the provided ID

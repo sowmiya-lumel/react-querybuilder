@@ -22,7 +22,8 @@ export interface IProps {
   customRenderer?(): any;
   getSelectionKey?(field: string): string;
   saveFilter?(): void;
-  enableDrilldown ? :boolean
+  enableDrilldown?: boolean;
+  theme?: string;
 }
 
 export const QueryGenerator: React.FC<IProps> = ({
@@ -43,7 +44,8 @@ export const QueryGenerator: React.FC<IProps> = ({
   getSelectedColumn,
   customRenderer,
   getSelectionKey,
-  enableDrilldown
+  enableDrilldown,
+  theme
 }) => {
   const generatorCls = !showAddGroup ? `query-generator hide-group` : 'query-generator';
   return (
@@ -68,7 +70,8 @@ export const QueryGenerator: React.FC<IProps> = ({
         getSelectedColumn={getSelectedColumn}
         customRenderer={customRenderer}
         getSelectionKey={getSelectionKey}
-        enableDrilldown = {enableDrilldown}
+        enableDrilldown={enableDrilldown}
+        theme={theme}
       />
     </div>
   );

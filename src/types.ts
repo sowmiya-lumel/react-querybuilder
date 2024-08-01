@@ -8,7 +8,7 @@ export interface NameLabelPair {
 export interface Field extends NameLabelPair {
   id?: string;
   [x: string]: any;
-  hideIcon?: boolean
+  hideIcon?: boolean;
 }
 
 export interface RuleType {
@@ -18,7 +18,7 @@ export interface RuleType {
   parentOperator?: string;
   value: any;
   valueMeta?: string;
-  isCategoryFilter?: boolean  
+  isCategoryFilter?: boolean;
 }
 
 export interface RuleGroupType {
@@ -36,7 +36,19 @@ export type ExportFormat = 'json' | 'sql' | 'json_without_ids' | 'parameterized'
 
 export type ValueProcessor = (field: string, operator: string, value: any) => string;
 
-export type ValueEditorType = 'text' | 'textarea' | 'select' | 'checkbox' | 'radio' | 'autocomplete' | 'none' | 'date' | 'custom' | 'numeric' | 'person' | 'datePeriods';
+export type ValueEditorType =
+  | 'text'
+  | 'textarea'
+  | 'select'
+  | 'checkbox'
+  | 'radio'
+  | 'autocomplete'
+  | 'none'
+  | 'date'
+  | 'custom'
+  | 'numeric'
+  | 'person'
+  | 'datePeriods';
 
 export interface CommonProps {
   /**
@@ -102,11 +114,12 @@ export interface ValueEditorProps extends SelectorEditorProps {
   operator?: string;
   type?: ValueEditorType;
   inputType?: string;
-  placeHolder?:string;
+  placeHolder?: string;
   values?: any[];
   customRenderer?(callback): any;
   getSelectionKey?(field: string): string;
-  valueMeta?: string
+  valueMeta?: string;
+  theme?: string;
 }
 
 export interface Controls {
@@ -150,7 +163,7 @@ export interface Classnames {
    * `<button>` to add a RuleGroup
    */
   addGroup: string;
-   /**
+  /**
    * `<button>` to clear rule
    */
   clearRule: string;
@@ -187,15 +200,28 @@ export interface Classnames {
 export interface Schema {
   fields: Field[];
   classNames: Classnames;
-  hasColumnChildRule(query?: RuleGroupType | RuleType) : boolean | undefined;
-  hasMeasureChildRule(query?: RuleGroupType | RuleType) : boolean | undefined;
+  hasColumnChildRule(query?: RuleGroupType | RuleType): boolean | undefined;
+  hasMeasureChildRule(query?: RuleGroupType | RuleType): boolean | undefined;
   combinators: { name: string; label: string }[];
   controls: Controls;
   createRule(): RuleType;
   createRuleGroup(): RuleGroupType;
   getLevel(id: string): number;
   getOperators(field: string, isParent?: boolean, parentOperator?: string): Field[];
-  getValueEditorType(field: string, operator: string, parentOperator?: string): 'text' | 'select' | 'checkbox' | 'radio' | 'autocomplete' | 'date' | 'numeric' | 'custom' | 'person';
+  getValueEditorType(
+    field: string,
+    operator: string,
+    parentOperator?: string
+  ):
+    | 'text'
+    | 'select'
+    | 'checkbox'
+    | 'radio'
+    | 'autocomplete'
+    | 'date'
+    | 'numeric'
+    | 'custom'
+    | 'person';
   getPlaceHolder(field: string, operator: string, parentOperator: string): string;
   getInputType(field: string, operator: string): string;
   getValues(field: string, operator: string): NameLabelPair[];
@@ -205,15 +231,15 @@ export interface Schema {
   onPropChange(prop: string, value: any, ruleId: string): void;
   onRuleAdd(rule: RuleType, parentId: string): void;
   onRuleRemove(id: string, parentId: string): void;
-  clearRule():void;
+  clearRule(): void;
   showCombinatorsBetweenRules: boolean;
   removeIconatStart: boolean;
   showNotToggle: boolean;
-  showAddGroup:boolean;
-  showAddRule:boolean;
-  customRenderer?():any;
-  getSelectionKey?(field: string): string,
-  
+  showAddGroup: boolean;
+  showAddRule: boolean;
+  customRenderer?(): any;
+  getSelectionKey?(field: string): string;
+  theme?: string;
 }
 
 export interface Translations {
@@ -282,7 +308,7 @@ export interface RuleProps {
   getSelectionKey?(field: string): string;
   valueMeta?: string;
 }
-export interface QueryGeneratorProps{
+export interface QueryGeneratorProps {
   query?: RuleGroupType;
   /**
    * The array of fields that should be used. Each field should be an object
@@ -305,17 +331,21 @@ export interface QueryGeneratorProps{
    *     {name: '>=', label: '>='},
    * ]
    */
-  operators?: NameLabelPair[];  
+  operators?: NameLabelPair[];
   /**
    * This is a callback function invoked to get the list of allowed
    * operators for the given field.
    */
-  getOperators?(field: string, isPrent?:  boolean, parentOperator?: string): Field[];
+  getOperators?(field: string, isPrent?: boolean, parentOperator?: string): Field[];
   /**
    * This is a callback function invoked to get the type of `ValueEditor`
    * for the given field and operator.
    */
-  getValueEditorType?(field: string, operator: string, parentOperator?: string): 'text' | 'select' | 'checkbox' | 'radio'| 'date' | 'custom' | 'person';
+  getValueEditorType?(
+    field: string,
+    operator: string,
+    parentOperator?: string
+  ): 'text' | 'select' | 'checkbox' | 'radio' | 'date' | 'custom' | 'person';
   /**
    * This is a callback function invoked to get the `type` of `<input />`
    * for the given field and operator (only applicable when
@@ -327,7 +357,6 @@ export interface QueryGeneratorProps{
    * This is a notification that is invoked anytime the query configuration changes.
    */
   onQueryChange(query: RuleGroupType): void;
-  
 }
 export interface QueryBuilderProps {
   query?: RuleGroupType;
@@ -363,8 +392,8 @@ export interface QueryBuilderProps {
    */
   combinators?: NameLabelPair[];
 
-  getSelectedColumn?():string;
-  
+  getSelectedColumn?(): string;
+
   enableNormalView?: boolean;
 
   onAdvancedClick?(): void;
@@ -381,21 +410,21 @@ export interface QueryBuilderProps {
    * This is a callback function invoked to get the type of `ValueEditor`
    * for the given field and operator.
    */
-  getValueEditorType?(field: string, operator: string): ValueEditorType
+  getValueEditorType?(field: string, operator: string): ValueEditorType;
   /**
    * This is a callback function invoked to get the `type` of `<input />` and auto complete
    * for the given field and operator (only applicable when
    * `getValueEditorType` returns `"text"` or `"number"`). If no
    * function is provided, `"empty string"` is used as the default.
    */
-  getPlaceHolder?(field: 'text' | 'number' | 'date' , operator: string): string;
+  getPlaceHolder?(field: 'text' | 'number' | 'date', operator: string): string;
   /**
    * This is a callback function invoked to get the `type` of `<input />`
    * for the given field and operator (only applicable when
    * `getValueEditorType` returns `"text"` or a falsy value). If no
    * function is provided, `"text"` is used as the default.
    */
-  getInputType?(field: 'text' | 'number' | 'date' , operator: string): string;
+  getInputType?(field: 'text' | 'number' | 'date', operator: string): string;
   /**
    * This is a callback function invoked to get the list of allowed
    * values for the given field and operator (only applicable when
@@ -425,17 +454,17 @@ export interface QueryBuilderProps {
    * Show the add rule option.
    */
   showAddRule?: boolean;
-   /**
+  /**
    * Show the add group button.
    */
   showAddGroup?: boolean;
   /**
    * Show remove icon at start or end
-   */ 
+   */
   removeIconatStart?: boolean;
   /**
    * Show the "not" toggle for rule groups.
-   */ 
+   */
   showNotToggle?: boolean;
   /**
    * Reset the operator and value components when the `field` changes.
@@ -445,10 +474,10 @@ export interface QueryBuilderProps {
    * Reset the value component when the `operator` changes.
    */
   resetOnOperatorChange?: boolean;
- /**
+  /**
    * Render custom component.
    */
-  customRenderer?(): any
+  customRenderer?(): any;
 
   /**
    * Return selection key.
@@ -458,5 +487,10 @@ export interface QueryBuilderProps {
   /**
    * Checking drill down is enabled
    */
-  enableDrilldown?: boolean
+  enableDrilldown?: boolean;
+
+  /**
+   * Canvas theme
+   */
+  theme?: string;
 }
